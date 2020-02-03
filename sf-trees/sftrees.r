@@ -3,7 +3,7 @@ library(ggmap)
 library(maps)
 library(mapdata)
 
-register_google(key = "[insert your own key here]")
+register_google(key = "[insert your own gmaps key here]")
 
 # Load the data
 sf_trees <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2020/2020-01-28/sf_trees.csv')
@@ -38,7 +38,10 @@ all <- ggmap(tree_map) +
         legend.position="none",
         plot.title = element_text(hjust = 0.5)
   ) +
-  ggtitle("Heat Map of All Street Side \nTrees in San Francisco")
+  ggtitle("Heat Map of Trees \nin San Francisco") +
+  scale_fill_distiller(palette = 'Oranges') +
+  coord_fixed(xlim = c(-122.520344, -122.341431),  ylim = c(37.698753, 37.815203), ratio = 1.3)
+
 
 # The four most popular tree species
 my_trees %>% count(species) %>% arrange(desc(n))
@@ -82,6 +85,8 @@ heat <- ggmap(tree_map) +
         legend.position="none",
         plot.title = element_text(hjust = 0.5)
         ) +
-  ggtitle("Most Popular Species")
+  ggtitle("Most Popular Species") +
+  scale_fill_distiller(palette = 'Oranges') +
+  coord_fixed(xlim = c(-122.520344, -122.341431),  ylim = c(37.698753, 37.815203), ratio = 1.3)
 
 grid.arrange(all, heat, nrow = 1)
